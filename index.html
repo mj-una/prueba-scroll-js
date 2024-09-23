@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: rgb(123, 47, 27);
+
+    overflow: hidden;
+    text-align: center;
+    
+    width: 100svw;
+    height: 100svh;
+  }
+
+  h1, h2 {
+    padding: 10px;
+  }
+
+  #miUI {
+    background-color: rgba(137, 43, 226, 0.262);
+    
+    width: 90svw;
+    height: 90svh;
+    
+    position: fixed;
+    z-index: 10;
+    left: 5svw;
+    top: 5svh;
+
+    display: flex;
+    align-items: center;
+  }
+
+  #miDiv {
+    background-color: rgba(0, 255, 255, 0.407);
+    color: rgba(240, 248, 255, 0.437);
+
+    font-size: 1.4rem;
+    
+    margin: 10px;
+    padding: 30px 73px;
+    height: 200px;
+  }
+
+  .frame {
+    background-color: cadetblue;
+
+    margin: 20svh;
+    padding: 20% 0;
+    height: 60svh;
+
+    color: tomato;
+    font-size: 4rem;
+
+    position: relative;
+    z-index: 5;
+  }
+  </style>
+</head>
+
+<body id="miBody">
+  <div id="miUI">
+    <h1>tectoo</h12>
+    <div id="miDiv"></div>
+    <button id="miBoton"><h2>Click!!!</h2></button>
+  </div>
+
+  <div class="frame">1</div>
+  <div class="frame">2</div>
+  <div class="frame">3</div>
+  <div class="frame">4</div>
+  <div class="frame">5</div>
+  <div class="frame">6</div>
+
+  <script>
+  let posicion = 0;
+  let velocidad = window.visualViewport.height / 30;
+
+  let frames = document.querySelectorAll(".frame");
+
+  const scrollear = () => {
+    posicion -= velocidad;
+
+    frames.forEach(frame => {
+      frame.style.top = posicion + "px"
+    });
+
+    const rn = Math.random() * 155;
+    miDiv.style.backgroundColor = `rgba(${100 + rn}, 20, ${200 - rn}, 0.421)`;
+  }
+
+  let lastClickTime = 0;
+  let isClicking = false;
+  let intervalId;
+
+  miBoton.addEventListener("pointerdown", () => {
+    const currentTime = Date.now();
+    if (currentTime - lastClickTime < 905) return;
+    lastClickTime = currentTime;
+
+
+    if (!isClicking) {
+    isClicking = true;
+    scrollear();
+    setTimeout( () => {
+      intervalId = setInterval(scrollear, 100); 
+    }, 800)
+  }
+  });
+
+  miBoton.addEventListener("pointerout", () => {
+
+    isClicking = false;
+    clearInterval(intervalId);
+
+  });
+
+  miBoton.addEventListener("pointerup", () => {
+    
+    isClicking = false;
+    clearInterval(intervalId);
+
+  });
+
+  const displayHora = () => miDiv.innerText = Date() + "\n\n" + posicion;
+  setInterval(displayHora, 100);
+  displayHora();
+  </script>
+</body>
+</html>
